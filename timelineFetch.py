@@ -5,6 +5,7 @@ from tweepy import OAuthHandler
 
 
 master = tk.Tk()
+master.title('timelineFetch')
 
 def fetchtimeline(event=None):
 	config = configparser.ConfigParser()
@@ -24,9 +25,18 @@ def fetchtimeline(event=None):
 
 	twitterid = inputid.get()
 
+	root = tk.Tk()
+	root.title('Results')
+
+	tweeter = tk.Label(root, text="Search results for: " + twitterid + "\n-------------------------")
+	tweeter.pack()
+
 	for status in tweepy.Cursor(api.user_timeline, id=twitterid).items(10):
-		print(status.text)
-		print('------------------------------')
+		w = tk.Label(root, text=status.text + "\nRetweets: " + str(status.retweet_count) + "   Favorites: " + str(status.favorite_count) + "\n-------------------------------------------")
+		w.pack()
+
+
+		
 
 tk.Label(master, text='TwitterID').grid(row=0)
 
